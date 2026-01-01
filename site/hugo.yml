@@ -1,0 +1,26 @@
+baseURL: "http://localhost/"
+languageCode: "en-us"
+title: "Ali's Blog"
+
+theme: "PaperMod"
+
+params:
+  defaultTheme: auto
+  ShowReadingTime: true
+  ShowCodeCopyButtons: true
+
+menu:
+  main:
+    - name: Blog
+      url: /posts/
+      weight: 1
+    - name: About
+      url: /about/
+      weight: 2
+
+markup:
+  highlight:
+    codeFences: true
+    guessSyntax: true
+    noClasses: false
+
