@@ -1,13 +1,33 @@
 baseURL: "http://localhost/"
 languageCode: "en-us"
-title: "Moein's Blog"
+title: "Moein Moradi"
 
-theme: "PaperMod"
+theme: "rusty-typewriter"
 
 params:
-  defaultTheme: auto
-  ShowReadingTime: true
-  ShowCodeCopyButtons: true
+  rtwt:
+    sidePane: true
+    countPageItems: 7
+    home:
+      showBio: true
+      showAuthorImg: true
+      sidePaneTags: true
+      showFeatured: true
+      showRecent: true
+      hideRecentWhenFeatured: true
+      countRecent: 5
+    side:
+      home:
+        sidePaneSticky: false
+        taxonomies: ['tags']
+        countTaxonomy: 5
+      single:
+        sidePaneSticky: true
+        showDetails: true
+        showTableOfContents: true
+        showAttachments: true
+        showRelated: true
+        countRelated: 5
 
 menu:
   main:

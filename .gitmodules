@@ -1,3 +1,6 @@
 [submodule "site/themes/PaperMod"]
 	path = site/themes/PaperMod
 	url = https://github.com/adityatelange/hugo-PaperMod.git
+[submodule "site/themes/rusty-typewriter"]
+	path = site/themes/rusty-typewriter
+	url = https://github.com/math-queiroz/rusty-typewriter.git
