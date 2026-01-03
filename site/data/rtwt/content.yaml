@@ -1,12 +1,12 @@
 home:
   image: 'images/profile.jpg'
-  greetings: 'Here I share my experiences from work and projects.'
-  text: ''
-side:
-  home:
-  - content: 'Oh, and did I mention it has support for static side pane content? Cool, right?'
-  - title: 'Media Support'
-    content: 'Side content can have images!'
-    imagePath: 'images/hugo.svg'
-    imageHref: 'https://gohugo.io'
-    imageWidth: '100%'
+  greetings: 'My experiences from work and projects'
+  text: 'Hi. I share the learnings from work and projects. The posts might be too specific but there were lessons for me to learn. I hope you get some ideas for what you do as well.'
+# side:
+#   home:
+#   - content: 'Oh, and did I mention it has support for static side pane content? Cool, right?'
+#   - title: 'Media Support'
+#     content: 'Side content can have images!'
+#     imagePath: 'images/hugo.svg'
+#     imageHref: 'https://gohugo.io'
+#     imageWidth: '100%'
