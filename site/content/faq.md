@@ -12,7 +12,7 @@ indexable: false
 
 **Q: What is this blog about?**
 
-A: I share solutions to technical problems that gave me a hard time. Most of the topics will be related to Linux, HPC, Devops, MLops, and as expected: AI.
+A: I share solutions to technical problems that gave me a hard time at a point of time. Most of the topics will be related to Linux, HPC, Devops, MLops, and as expected: AI.
 
 ---
 
@@ -24,7 +24,7 @@ A: There is no fixed interval but I post whenever there is something worthy of s
 
 **Q: Can I use your code examples?**
 
-A: Feel free to use any of the materials HOWEVER YOU DEEM FIT. In case of making other content from it, I will appreciate a reference to the post or the website.
+A: Feel free to use any of the materials IN ANY WAY YOU DEEM FIT. In case of making other content from it, I will appreciate a reference to the post or the website.
 
 ---
 
