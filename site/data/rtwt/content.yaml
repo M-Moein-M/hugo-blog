@@ -1,7 +1,7 @@
 home:
   image: 'images/profile.jpg'
-  greetings: 'My experiences from work and projects'
-  text: 'Hi. I share the learnings from work and projects. The posts might be too specific but there were lessons for me to learn. I hope you get some ideas for what you do as well.'
+  greetings: 'Learnings from work and projects'
+  text: 'Hi. I share my learnings from work and projects. The posts might be too specific but there were lessons for me to learn. I hope you get some ideas for what you do as well.'
 # side:
 #   home:
 #   - content: 'Oh, and did I mention it has support for static side pane content? Cool, right?'
