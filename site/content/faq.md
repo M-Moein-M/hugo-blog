@@ -8,7 +8,7 @@ indexable: false
 
 ## Frequently Asked Questions
 
-### General
+---
 
 **Q: What is this blog about?**
 
