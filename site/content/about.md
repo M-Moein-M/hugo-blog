@@ -3,6 +3,7 @@ title: "About"
 date: 2026-01-03
 draft: false
 layout: "single"
+indexable: false
 ---
 
 ## About Me

@@ -3,6 +3,7 @@ title: "FAQ"
 date: 2026-01-04
 draft: false
 layout: "single"
+indexable: false
 ---
 
 ## Frequently Asked Questions
