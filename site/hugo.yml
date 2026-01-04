@@ -37,6 +37,9 @@ menu:
     - name: About
       url: /about/
       weight: 2
+    - name: FAQ
+      url: /faq/
+      weight: 3
 
 markup:
   highlight:
