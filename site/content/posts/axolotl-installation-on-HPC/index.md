@@ -43,7 +43,7 @@ In my honest opinion you should not install Axolotl this way. In the future, I d
 
 I allocated 1 GPU to make sure GPUS are available when installing (was hoping it would have some effects) and with 16 CPU cores available. Here is the CPU utilization during the installation of axolotl using `pip`. This should give you clear idea of how things will be if you try to install it with pip.
 
-![Building Axolotl](./building-axolotl.png)
+{{< figure src="./building-axolotl.png" alt="Building Axolotl" align="center" >}}
 
 All the cores were fully busy and the installation ended up running into a build error.
 
