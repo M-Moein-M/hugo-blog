@@ -4,7 +4,7 @@ date: 2026-01-04
 draft: false
 featured: true
 ---
-TLDR; use containerization solutions instead of installing axolotl. docker or apptainer (for HPC)
+TLDR; use containerization solutions instead of installing axolotl: docker or apptainer (for HPC)
 
 ## Introduction
 
@@ -13,22 +13,22 @@ You probably already know this but Axolotl (as documentation puts it) is...
 
 My main use case was to fine-tune [meta-llama/Llama-3.2-3B](https://huggingface.co/meta-llama/Llama-3.2-3B) on a synthesized/generate tool calling dataset. This was in a HPC environment provided by [NHR@FAU](https://hpc.fau.de/).
 
-# installation possibilities/approaches
+## installation possibilities/approaches
 
 There are two main approaches for installing Axolotl on systems.
 
 ## 1. Containerization (highly recommended!)
 
-### apptainer on HPC
+### Apptainer on HPC
 
-If you are working in HPC environment or a system that is managed externaly or shared among many users, it is most likely that there is no support for Docker. Apptainer is the containerazation solution on HPC and such environments. 
+If you are working in HPC environment or a system that is managed externaly or shared among many users, it is most likely that there is no support for Docker. [Apptainer](https://apptainer.org/) is the containerazation solution on HPC and such environments. 
 
 Below is the command that you can use to pull the axolot image (`.sif`) file and run it as a container.
 
 ```bash
 mkdir axolotl && cd axolotl # or just change directory where you want the .sif file exist
 apptainer pull axolotl.sif docker://axolotlai/axolotl:main-latest # pull the image
- apptainer exec --nv axolotl.sif accelerate --help  # check if everything works
+apptainer exec --nv axolotl.sif accelerate --help  # check if everything works
 ```
 
 ### Docker
@@ -46,3 +46,11 @@ I allocated 1 GPU to make sure GPUS are available when installing (was hoping it
 ![Building Axolotl](./building-axolotl.png)
 
 All the cores were fully busy and the installation ended up running into a build error.
+
+## Lessons learned
+
+For such complecated packages that are highly dependent on multiple big packages and CUDA version, it is almost mandatory to use these packages through their containerized version.
+
+---
+
+> I am interested in solving or talking about problems related to serving AI and the system operations around it. If you have problems related to reliable deployment of AI systems (on cloud, HPC or even on-perm) you can write me an email.
