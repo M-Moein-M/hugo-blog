@@ -13,7 +13,7 @@ You probably already know this but Axolotl (as documentation puts it) is...
 
 My main use case was to fine-tune [meta-llama/Llama-3.2-3B](https://huggingface.co/meta-llama/Llama-3.2-3B) on a synthesized/generate tool calling dataset. This was in a HPC environment provided by [NHR@FAU](https://hpc.fau.de/).
 
-## installation possibilities/approaches
+## Installation approaches
 
 There are two main approaches for installing Axolotl on systems.
 
