@@ -11,7 +11,7 @@ TLDR; use containerization solutions instead of installing axolotl: docker or ap
 You probably already know this but Axolotl (as documentation puts it) is...
 > A Free and Open Source LLM Fine-tuning Framework
 
-My main use case was to fine-tune [meta-llama/Llama-3.2-3B](https://huggingface.co/meta-llama/Llama-3.2-3B) on a synthesized/generate tool calling dataset. This was in a HPC environment provided by [NHR@FAU](https://hpc.fau.de/).
+My main use case was to fine-tune [Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct) on a synthesized/generate tool calling dataset. This was in a HPC environment provided by [NHR@FAU](https://hpc.fau.de/).
 
 ## Installation approaches
 
@@ -53,4 +53,4 @@ For such complecated packages that are highly dependent on multiple big packages
 
 ---
 
-> I am interested in solving or talking about problems related to serving AI and the system operations around it. If you have problems related to reliable deployment of AI systems (on cloud, HPC or even on-perm) you can write me an email.
+> I am open for collaboration. I am interested in solving and talking about problems related to serving AI and the system operations around it. If you have problems related to reliable deployment of AI systems (on cloud, HPC or even on-perm), feel free to write me an email.
