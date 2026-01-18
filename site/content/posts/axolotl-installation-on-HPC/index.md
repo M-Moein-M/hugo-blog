@@ -37,7 +37,7 @@ If Docker is available on your system, you can easily pull the image according t
 
 ## 2. pip/conda/uv (could not make it work)
 
-Just to give you a heads up if you wanna go down this path, it took me 4 hours of trying searching and checking with 4 different AI assitants (ChatGPT, Groq, Gemini, Claude) and trying different installation orders (i.e. installing pytorch before flash-attn) and pinning different versions CUDA, python, and pytorch.
+Just to give you a heads up if you wanna go down this path, it took me 4 hours of trying searching and checking with 4 different AI assitants (ChatGPT, Groq, Gemini, Claude) and trying different installation orders (i.e. installing pytorch before flash-attn) and pinning different CUDA versions, python, and pytorch.
 
 In my honest opinion you should not install Axolotl this way. In the future, I do my best to avoid installing such packages with python package managers and I will directly look for containerized solutions.
 
