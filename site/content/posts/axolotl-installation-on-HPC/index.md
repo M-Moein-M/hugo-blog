@@ -29,6 +29,7 @@ Below is the command that you can use to pull the axolot image (`.sif`) file and
 mkdir axolotl && cd axolotl # or just change directory where you want the .sif file exist
 apptainer pull axolotl.sif docker://axolotlai/axolotl:main-latest # pull the image
 apptainer exec --nv axolotl.sif accelerate --help  # check if everything works
+apptainer cache clean  # for me running this released ~40GB of disk space
 ```
 
 ### Docker
