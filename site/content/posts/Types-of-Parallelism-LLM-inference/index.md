@@ -14,10 +14,8 @@ The rule of thumb is:
 > 1. If you have only one GPU and the model fits perfectly on one GPU, just use the GPU!
 
 > 2. If you have 1 node and multiple GPUs and...
->
-> a. The model fits on 1 GPU and you want to maximize throughput by using all the GPUS, use the *data Parallelism*.
->
-> b. The model does NOT fit on a single GPU, use *tensor Parallelism*.
+> - The model fits on 1 GPU and you want to maximize throughput by using all the GPUS, use the *data Parallelism*.
+> - The model does NOT fit on a single GPU, use *tensor Parallelism*.
 
 > 3. if the model is too large for a single node, combine *tensor parallelism* with *pipeline parallelism*.
 
