@@ -14,10 +14,10 @@ The rule of thumb is:
 > 1. If you have only one GPU and the model fits perfectly on one GPU, just use the GPU!
 
 > 2. If you have 1 node and multiple GPUs and...
-
-        a. The model fits on 1 GPU and you want to maximize throughput by using all the GPUS, use the *data Parallelism*.
-
-        b. The model does NOT fit on a single GPU, use *tensor Parallelism*.
+>
+> a. The model fits on 1 GPU and you want to maximize throughput by using all the GPUS, use the *data Parallelism*.
+>
+> b. The model does NOT fit on a single GPU, use *tensor Parallelism*.
 
 > 3. if the model is too large for a single node, combine *tensor parallelism* with *pipeline parallelism*.
 
@@ -25,8 +25,21 @@ The rule of thumb is:
 
 ## Types of Parallelism
 
+There are (at least) 3 main types of parallelism when it comes to serving LLM on GPUs. Basically the type of parallelism that you choose dictates how your model is distributed among your GPUs. Pictures below will hopefully give you good idea about the concept.
+
+I also took the images from [this paper](https://xzt102.github.io/publications/2021_WWW.pdf)
 
 ## 1. Pipeline Parallelism
+
+
+This approach splits the model by it's layers and each set of layers will live on different GPUs. For example, if you have a Neural Network with 20 layers and 4 GPUs, this approach will put layers [1 to 5] on GPU number 1, layers [6 to 10] on GPU number 2 and so on.
+
+{{< figure src="./pipeline.png" alt="Pipeline Parallelism Figure" align="center" >}}
+
+
+### Pipeline Parallelism in Action
+
+I was running [Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct) on 4xA40 NVIDIA GPUs using pipeline parallelism. But the utilization was way off that what I was expecting and the reason was that I was simply using the wrong parallelism approach. Below is a figure that shows the utilization of the GPUs during the inference (data generation).
 
 * pipeline bubbles
 
