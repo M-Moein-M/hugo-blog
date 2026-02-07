@@ -75,29 +75,40 @@ If you work with vllm, it comes with an [internal load balancer](https://docs.vl
 I wanted to generate 4,000 data entries to compare with golden answers from GPT-OSS-120B model. I was working on a single node with 4xA40 NVIDIA GPUs and running [Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct). I wanted to maximize the output throughput to utilize the GPUs to the best way possible. This was on an HPC environment provided by [NHR@FAU](https://hpc.fau.de/).
 
 
-### Pipeline Parallelism in Action
+### Parallelism in Action
 
-I was running [Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct) on 4xA40 NVIDIA GPUs using pipeline parallelism. But the utilization was way off that what I was expecting and the reason was that I was simply using the wrong parallelism approach. Below is a figure that shows the utilization of the GPUs during the inference (data generation).
+I was running *Llama-3.2-3B-Instruct* on 4xA40 NVIDIA GPUs using pipeline parallelism. But the utilization was way off that what I was expecting and the reason was that I was simply using the wrong parallelism approach. Below is a figure that shows the utilization of the GPUs during the inference (data generation).
 
 {{< figure src="./gpu_util_pipeline.png" alt="GPU Utilization with Pipeline Parallelism" align="center" >}}
 
+I changed parallelism approach from pipeline to tensor parallelism and the GPU utilization went up to 90% and stayed there!
 
-[to be continued...]
+{{< figure src="./tensor-utilization.jpg" alt="GPU Utilization with Tensor Parallelism" align="center" >}}
+
+
+### \[IMPORTANT\] My mistake when running the inference on 4 GPUs
+One thing I realized when I was writing this blog post is that I should have had used data parallel instead of tensor parallel since...
+ 1. the model would perfectly fit on one GPU
+ 2. Tensor parallelism has GPU communication overhead
+
+And I could simply ~4X the through put by using data parallelism approach.
 
 ---
 
-## My mistake when running the inference on 4 GPUs
-I should've had used data parallel instead of tensor parallel since 1. the model would perfectly fit on one GPU and 2. Tensor parallelism has overhead of breaking and combining the calculation between 4 GPUs
-
 ## Let's Walk Through one Example
 
-* Explain what happens in such a scenario:  `For example, set tensor_parallel_size=8 and pipeline_parallel_size=2 when using 2 nodes with 8 GPUs per node.` [example](https://docs.vllm.ai/en/stable/serving/parallelism_scaling/#distributed-inference-strategies-for-a-single-model-replica:~:text=For%20example%2C%20set%20tensor_parallel_size%3D8%20and%20pipeline_parallel_size%3D2%20when%20using%202%20nodes%20with%208%20GPUs%20per%20node.)
+Let's say you set `tensor_parallel_size=8` and `pipeline_parallel_size=2` and you are using 2 nodes each with 8 GPUs.
 
+> Would first the tensor parallelism be applied and then pipeline parallelism or vice versa?
+
+First we break the model layer-wise. We put each sub-layers on each node, and within that node, we break the tensors among the available GPUs. For example, If you have a model with 32 layers, the first 8 layers will sit on node-1 and the second 8 layers will sit on node-2. The first 8 layers, will be distributed via tensor parallel approach among all the available GPUs on that node.
+
+{{< figure src="./multinode.png" alt="Multi-node parallelism. [Image source](https://tj-solergibert.github.io/post/3d-parallelism)" align="center" >}}
 
 
 ## Lessons learned
 
-
+\[TODO\]
 
 ---
 
