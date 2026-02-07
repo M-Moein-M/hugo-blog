@@ -101,7 +101,9 @@ Let's say you set `tensor_parallel_size=8` and `pipeline_parallel_size=2` and yo
 
 First we break the model layer-wise. We put each sub-layers on each node, and within that node, we break the tensors among the available GPUs. For example, If you have a model with 32 layers, the first 8 layers will sit on node-1 and the second 8 layers will sit on node-2. The first 8 layers, will be distributed via tensor parallel approach among all the available GPUs on that node.
 
-{{< figure src="./multinode.png" alt="Multi-node parallelism. [Image source](https://tj-solergibert.github.io/post/3d-parallelism)" align="center" >}}
+I took the image below from [this blog post](https://tj-solergibert.github.io/post/3d-parallelism)
+
+{{< figure src="./multinode.png" alt="Multi-node parallelism" align="center" >}}
 
 
 ## Lessons learned
