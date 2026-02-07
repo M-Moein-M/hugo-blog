@@ -32,23 +32,40 @@ I also took the images from [this paper](https://xzt102.github.io/publications/2
 ## 1. Pipeline Parallelism
 
 
-This approach splits the model by it's layers and each set of layers will live on different GPUs. For example, if you have a Neural Network with 20 layers and 4 GPUs, this approach will put layers [1 to 5] on GPU number 1, layers [6 to 10] on GPU number 2 and so on.
+This approach splits the model by it's layers and each set of layers will live on different GPUs.
 
-{{< figure src="./pipeline.png" alt="Pipeline Parallelism Figure" align="center" >}}
+For example, if you have a Neural Network with 30 layers and 3 GPUs, this approach will put layers [0 to 9] on GPU number 1, layers [10 to 19] on GPU number 2 and so on.
 
+{{< figure src="./pipeline.jpg" alt="Pipeline Parallelism Figure" align="center" >}}
 
-### Pipeline Parallelism in Action
+### Pipeline Bubbles
 
-I was running [Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct) on 4xA40 NVIDIA GPUs using pipeline parallelism. But the utilization was way off that what I was expecting and the reason was that I was simply using the wrong parallelism approach. Below is a figure that shows the utilization of the GPUs during the inference (data generation).
-
-* pipeline bubbles
+One really important concept that you should be aware of is that when you put each layer on a different GPU, through out the computations, one layer should wait for the last layer to finish its calculations and pass the data. This adds small pauses during the computations from GPU to GPU and this is something known as Pipeline Bubbles.
 
 ## 2. Tensor Parallelism
+
+This approach splits the matrices and puts them on different GPUs. So basically each GPU will hold one part of the each layer. 
+
+For example, if you have a Neural Network with 30 layers of 2x2 matrices and 3 GPUs, the element at (0, 0) of each layer will sit in GPU number 1, the element at (0, 1) will sit in GPU number 2, and the elements of (1, 0) and (1, 1) of each layer will sit on GPU number 3.
+
+{{< figure src="./tensor.jpg" alt="Tensor Parallelism Figure" align="center" >}}
 
 
 ## 3. Data Parallelism
 
-* talk about load balancer and it's importance
+In data parallelism the entire model sits on a single GPU and it is exactly copied among the other GPUs. This approach just replicates the model among the available hardware. 
+
+{{< figure src="./data.jpg" alt="Pipeline Parallelism Figure" align="center" >}}
+
+You might consider this approach when there are no hardware restrictions to fit the model on a single GPU but you probably only want to increase your throughput. For example if you have a model that fits on one GPU but you have 3 available GPUs, you can just use all three with data parallelism to multiply your throughput by a factor of 3 (best case).
+
+This approach is a bit different than the other two. For pipeline and Tensor parallelism you cannot get *ANY* work done since your model does not fit on one GPU. So you use more hardware just to be able to use the model. But in data parallelism, you replicate the model and use more hardware to increase the throughput.
+
+### Load Balancer
+
+If all of your GPUs are holding one replica of the entire model, the question would be who should handle the next incoming request. This is something that is handled by a load balancer. The criteria on which the load balancer decides how to route the incoming request, can be things like Round Robin, load-aware (give the work to whichever that has less work to do) and more.
+
+If you work with vllm, it comes with an [internal load balancer](https://docs.vllm.ai/en/stable/serving/data_parallel_deployment/#internal-load-balancing) to expose a single API endpoint when you are using Data Parallelism.
 
 
 ---
@@ -56,6 +73,14 @@ I was running [Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.
 ## My Personal Experience with these Concepts
 
 I wanted to generate 4,000 data entries to compare with golden answers from GPT-OSS-120B model. I was working on a single node with 4xA40 NVIDIA GPUs and running [Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct). I wanted to maximize the output throughput to utilize the GPUs to the best way possible. This was on an HPC environment provided by [NHR@FAU](https://hpc.fau.de/).
+
+
+### Pipeline Parallelism in Action
+
+I was running [Llama-3.2-3B-Instruct](https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct) on 4xA40 NVIDIA GPUs using pipeline parallelism. But the utilization was way off that what I was expecting and the reason was that I was simply using the wrong parallelism approach. Below is a figure that shows the utilization of the GPUs during the inference (data generation).
+
+{{< figure src="./gpu_util_pipeline.png" alt="GPU Utilization with Pipeline Parallelism" align="center" >}}
+
 
 [to be continued...]
 
@@ -71,11 +96,6 @@ I should've had used data parallel instead of tensor parallel since 1. the model
 
 
 ## Lessons learned
-
-
-### EDITORIAL NOTES
-[this section will be changed during drafting the post and will be removed in the end]
-* include pictures from this paper https://xzt102.github.io/publications/2021_WWW.pdf
 
 
 
