@@ -25,8 +25,6 @@ The rule of thumb is:
 
 There are (at least) 3 main types of parallelism when it comes to serving LLM on GPUs. Basically the type of parallelism that you choose dictates how your model is distributed among your GPUs. Pictures below will hopefully give you good idea about the concept.
 
-I also took the images from [this paper](https://xzt102.github.io/publications/2021_WWW.pdf)
-
 ## 1. Pipeline Parallelism
 
 
@@ -34,7 +32,7 @@ This approach splits the model by it's layers and each set of layers will live o
 
 For example, if you have a Neural Network with 30 layers and 3 GPUs, this approach will put layers [0 to 9] on GPU number 1, layers [10 to 19] on GPU number 2 and so on.
 
-{{< figure src="./pipeline.jpg" alt="Pipeline Parallelism Figure" align="center" >}}
+{{< figure src="./pipeline.jpg" alt="Pipeline Parallelism Figure" caption="Pipeline Parallelism. [Image source](https://xzt102.github.io/publications/2021_WWW.pdf)" align="center" >}}
 
 ### Pipeline Bubbles
 
@@ -46,14 +44,14 @@ This approach splits the matrices and puts them on different GPUs. So basically 
 
 For example, if you have a Neural Network with 30 layers of 2x2 matrices and 3 GPUs, the element at (0, 0) of each layer will sit in GPU number 1, the element at (0, 1) will sit in GPU number 2, and the elements of (1, 0) and (1, 1) of each layer will sit on GPU number 3.
 
-{{< figure src="./tensor.jpg" alt="Tensor Parallelism Figure" align="center" >}}
+{{< figure src="./tensor.jpg" alt="Tensor Parallelism Figure" caption="Tensor Parallelism. [Image source](https://xzt102.github.io/publications/2021_WWW.pdf)" align="center" >}}
 
 
 ## 3. Data Parallelism
 
 In data parallelism the entire model sits on a single GPU and it is exactly copied among the other GPUs. This approach just replicates the model among the available hardware. 
 
-{{< figure src="./data.jpg" alt="Pipeline Parallelism Figure" align="center" >}}
+{{< figure src="./data.jpg" alt="Data Parallelism Figure" caption="Data Parallelism. [Image source](https://xzt102.github.io/publications/2021_WWW.pdf)" align="center" >}}
 
 You might consider this approach when there are no hardware restrictions to fit the model on a single GPU but you probably only want to increase your throughput. For example if you have a model that fits on one GPU but you have 3 available GPUs, you can just use all three with data parallelism to multiply your throughput by a factor of 3 (best case).
 
@@ -75,13 +73,13 @@ I wanted to generate 4,000 data entries to compare with golden answers from GPT-
 
 ### Parallelism in Action
 
-I was running *Llama-3.2-3B-Instruct* on 4xA40 NVIDIA GPUs using pipeline parallelism. But the utilization was way off that what I was expecting and the reason was that I was simply using the wrong parallelism approach. Below is a figure that shows the utilization of the GPUs during the inference (data generation).
+I was running *Llama-3.2-3B-Instruct* on 4xA40 NVIDIA GPUs using pipeline parallelism. But the utilization was way off that what I was expecting and the reason was that I was simply using the wrong parallelism approach. Below is a figure that shows the utilization of the GPUs during the inference (data generation). The graphs were depicted by [NHR@FAU cluster cockpit](https://doc.nhr.fau.de/job-monitoring-with-clustercockpit/) in job monitoring system.
 
-{{< figure src="./gpu_util_pipeline.png" alt="GPU Utilization with Pipeline Parallelism" align="center" >}}
+{{< figure src="./gpu_util_pipeline.png" alt="GPU Utilization with Pipeline Parallelism" caption="GPU utilization during inference with Pipeline Parallelism showing suboptimal performance" align="center" >}}
 
 I changed parallelism approach from pipeline to tensor parallelism and the GPU utilization went up to 90% and stayed there!
 
-{{< figure src="./tensor-utilization.jpg" alt="GPU Utilization with Tensor Parallelism" align="center" >}}
+{{< figure src="./tensor-utilization.jpg" alt="GPU Utilization with Tensor Parallelism" caption="GPU utilization with Tensor Parallelism reaching 90%" align="center" >}}
 
 
 ### \[IMPORTANT\] My mistake when running the inference on 4 GPUs
@@ -93,17 +91,16 @@ And I could simply ~4X the through put by using data parallelism approach.
 
 ---
 
-## Let's Walk Through one Example
+## Let's Walk Through an Example
 
 Let's say you set `tensor_parallel_size=8` and `pipeline_parallel_size=2` and you are using 2 nodes each with 8 GPUs.
 
-> Would first the tensor parallelism be applied and then pipeline parallelism or vice versa?
+> ❓Question: Is the tensor parallelism applied first and then pipeline parallelism or is it the other way around?
 
 First we break the model layer-wise. We put each sub-layers on each node, and within that node, we break the tensors among the available GPUs. For example, If you have a model with 32 layers, the first 8 layers will sit on node-1 and the second 8 layers will sit on node-2. The first 8 layers, will be distributed via tensor parallel approach among all the available GPUs on that node.
 
-I took the image below from [this blog post](https://tj-solergibert.github.io/post/3d-parallelism)
 
-{{< figure src="./multinode.png" alt="Multi-node parallelism" align="center" >}}
+{{< figure src="./multinode.png" alt="Multi-node parallelism" caption="Tensor and pipeline parallelism on multiple nodes. [Image source](https://tj-solergibert.github.io/post/3d-parallelism)" align="center" >}}
 
 
 ## Lessons learned
