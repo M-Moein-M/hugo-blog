@@ -1,8 +1,8 @@
 ---
-title: "[Draft] Types of Parallelism for LLM Inference or Deep Learning Explained"
+title: "Types of Parallelism for LLM Inference or Deep Learning Explained"
 date: 2026-01-31
 draft: false
-featured: false
+featured: true
 ---
 TLDR; The parallelism you chose (the way you load your matrices on GPUs) can make the difference between utilization of 50% and 90%.
 

@@ -2,7 +2,7 @@
 title: "How to Install Axolotl on HPC environment"
 date: 2026-01-04
 draft: false
-featured: true
+featured: false
 ---
 TLDR; use containerization solutions instead of installing axolotl: docker or apptainer (for HPC)
 
