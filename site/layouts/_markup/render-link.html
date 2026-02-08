@@ -1,0 +1,19 @@
+{{- /*
+Render hook for Markdown links.
+Forces links to open in a new tab.
+
+This file exists in layouts/_markup/ as an alternate lookup location.
+*/ -}}
+
+{{- $dest := .Destination | safeURL -}}
+{{- $text := .Text | safeHTML -}}
+
+{{- $titleAttr := "" -}}
+{{- with .Title -}}
+  {{- $titleAttr = printf " title=%q" . -}}
+{{- end -}}
+
+{{- /* Keep same-page fragment links in the current tab. */ -}}
+{{- $isFragment := strings.HasPrefix .Destination "#" -}}
+
+<a href="{{ $dest }}"{{ $titleAttr | safeHTMLAttr }}{{ if not $isFragment }} target="_blank" rel="noopener noreferrer"{{ end }}>{{ $text }}</a>
