@@ -99,13 +99,18 @@ Let's say you set `tensor_parallel_size=8` and `pipeline_parallel_size=2` and yo
 
 First we break the model layer-wise. We put each sub-layers on each node, and within that node, we break the tensors among the available GPUs. For example, If you have a model with 32 layers, the first 8 layers will sit on node-1 and the second 8 layers will sit on node-2. The first 8 layers, will be distributed via tensor parallel approach among all the available GPUs on that node.
 
+The picture below puts everything in perspective. The model distribution is set to `tensor_parallel_size=4`, `pipeline_parallel_size=2`, `data_parallel_size=2`. We have 4 nodes with 4 GPUs each. Here what happens in this scenario.
+
+1. \[Pipeline parallelism\] The model layers are broken into 4 sub-layers. If the model has 20 layers, each sub-layer has 5 layers. Each sub-layer is assigned to one node.
+2. \[Tensor parallelism\] In each node, the matrices of the sub-layer (having 5 layers) are broken into 2 parts and distributed on 2 GPUs. Doing this once, will occupy 2 GPUs (let's say devices 0,1) and 2 GPUs will be still free (let's say devices 2,3).
+3. \[Data parallelism\] In the last step, The last 2 free GPUs (devices 2,3) are filled with exactly the same matrices that sit on devices 0,1. Basically we have replication.
 
 {{< figure src="./multinode.png" alt="Multi-node parallelism" caption="Tensor and pipeline parallelism on multiple nodes. [Image source](https://tj-solergibert.github.io/post/3d-parallelism)" align="center" >}}
 
 
 ## Lessons learned
 
-\[TODO\]
+How you set your model distribution is extremely important in fully utilizing your resources. You should usually aim for +90% utilization of your GPUs. If 90%+ is not achieved, something is wrong. Of course, there are some usecass that it might be impossible to reach this level of utilization, but aim for the stars anyway. 
 
 ---
 
