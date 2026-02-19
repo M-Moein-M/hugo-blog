@@ -4,6 +4,10 @@ title: "Moein Moradi"
 
 theme: "rusty-typewriter"
 
+services:
+  googleAnalytics:
+    ID: ""
+
 params:
   rtwt:
     sidePane: true
