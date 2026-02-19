@@ -23,7 +23,7 @@ There are two main approaches for installing Axolotl on systems.
 
 ### Apptainer on HPC
 
-If you are working in HPC environment or a system that is managed externaly or shared among many users, it is most likely that there is no support for Docker. [Apptainer](https://apptainer.org/) is the containerazation solution on HPC and such environments. 
+If you are working in HPC environment or a system that is managed externally or shared among many users, it is most likely that there is no support for Docker. [Apptainer](https://apptainer.org/) is the containerization solution on HPC and such environments. 
 
 Below is the command that you can use to pull the axolot image (`.sif`) file and run it as a container.
 
@@ -40,7 +40,7 @@ If Docker is available on your system, you can easily pull the image according t
 
 ## 2. pip/conda/uv (could not make it work)
 
-Just to give you a heads up if you wanna go down this path, it took me 4 hours of trying searching and checking with 4 different AI assitants (ChatGPT, Groq, Gemini, Claude) and trying different installation orders (i.e. installing pytorch before flash-attn) and pinning different CUDA versions, python, and pytorch.
+Just to give you a heads up if you wanna go down this path, it took me 4 hours of trying searching and checking with 4 different AI assistants (ChatGPT, Groq, Gemini, Claude) and trying different installation orders (i.e. installing pytorch before flash-attn) and pinning different CUDA versions, python, and pytorch.
 
 In my honest opinion you should not install Axolotl this way. In the future, I do my best to avoid installing such packages with python package managers and I will directly look for containerized solutions.
 
@@ -52,7 +52,7 @@ All the cores were fully busy and the installation ended up running into a build
 
 ## Lessons learned
 
-For such complecated packages that are highly dependent on multiple big packages and CUDA version, it is almost mandatory to use these packages through their containerized version.
+For such complicated packages that are highly dependent on multiple big packages and CUDA version, it is almost mandatory to use these packages through their containerized version.
 
 ---
 

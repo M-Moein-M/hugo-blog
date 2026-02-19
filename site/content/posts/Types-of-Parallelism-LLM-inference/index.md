@@ -110,7 +110,7 @@ The picture below puts everything in perspective. The model distribution is set 
 
 ## Lessons learned
 
-How you set your model distribution is extremely important in fully utilizing your resources. You should usually aim for +90% utilization of your GPUs. If 90%+ is not achieved, something is wrong. Of course, there are some usecass that it might be impossible to reach this level of utilization, but aim for the stars anyway. 
+How you set your model distribution is extremely important in fully utilizing your resources. You should usually aim for +90% utilization of your GPUs. If 90%+ is not achieved, something is wrong. Of course, there are some use cases that it might be impossible to reach this level of utilization, but aim for the stars anyway. 
 
 ---
 
