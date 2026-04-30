@@ -6,6 +6,11 @@ featured: false
 ---
 TLDR; use containerization solutions instead of installing axolotl: docker or apptainer (for HPC)
 
+```bash
+Update log:
+    [April 2026] Added Troubleshooting and sandbox section
+```
+
 {{< youtube sQLQTiFf72U >}}
 
 ## Introduction
@@ -49,6 +54,42 @@ I allocated 1 GPU to make sure GPUS are available when installing (was hoping it
 {{< figure src="./building-axolotl.png" alt="Building Axolotl" caption="CPU utilization during Axolotl installation using pip" align="center" >}}
 
 All the cores were fully busy and the installation ended up running into a build error.
+
+## Troubleshooting with Sandbox
+
+> *This part is the latest fruitful experience I had with containers.*
+
+### Problem
+When building the image file (`.sif`) file from a definition file (`.def`), chances are that you run into system errors that might stem from the container, some package requirements, or even correcting path to executables. For example, if you wanna install `uv` (the package manager), the executable can be put in different places (one of which can be `/root/.local/bin/uv`) and just running plain uv does not work.
+
+### Solution
+
+Running things as sandbox helps you with experimenting and understanding the container. You can install packages, peak into directories, libraries, finding executables paths, available commands or anything that might be relevant to your work. You can see how things would play out and what you should do specifically when you want to write your definition file.
+
+Unless... you don't even need to write the `.def`. With sandboxes you can directly package them into `.sif` files. All the packages installed in the sandbox, all the changes applied there would be in the final `.sif` file. This is a strong approach to overcome the system-related failures (funny enough, we started using containers to prevent system-related failure and dependencies but here we are again). Based on my experience, these system-failures are significantly less than tackling the installation without containers and sandboxes.
+
+### Sample workflow for sandboxes
+
+We build `rocm_vllm.sif` file that contains `vllm` and `rocm` libraries to run on AMD MI300x GPU.
+
+```bash
+apptainer build --sandbox rocm_vllm_sandbox/ docker://rocm/pytorch:rocm7.2.1_ubuntu24.04_py3.12_pytorch_release_2.9.1
+apptainer shell --writable --fakeroot rocm_vllm_sandbox  # `fakeroot` helps you with installation and `writable` is necessary for applying changes and installation
+```
+
+After the commands above, you will be logged into the sandbox and have `shell` access. You can do anything now, like installing `uv` package manager.
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+export PATH="$HOME/.local/bin:$PATH"
+uv pip install vllm --extra-index-url https://wheels.vllm.ai/rocm/ --upgrade
+```
+
+And then you build the sandbox into a `.sif` file.
+
+```bash
+apptainer build rocm_vllm.sif rocm_vllm_sandbox/
+```
 
 ## VLLM example
 
