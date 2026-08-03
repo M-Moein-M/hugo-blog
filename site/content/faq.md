@@ -6,13 +6,9 @@ layout: "single"
 indexable: false
 ---
 
-## Frequently Asked Questions
-
----
-
 **What is this blog about?**
 
-I share solutions to technical problems that gave me a hard time at a point of time. Most of the topics will be related to Linux, HPC, Devops, MLops, and as expected: AI.
+I share solutions to technical problems that gave me a hard time at a point of time. Most of the topics will be related to Linux, HPC, Devops, MLops, and as expected: AI. I am also reading some books on business and I will share my learnings here as well.
 
 ---
 

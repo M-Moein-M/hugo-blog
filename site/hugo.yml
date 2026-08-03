@@ -4,6 +4,11 @@ title: "Moein Moradi"
 
 theme: "rusty-typewriter"
 
+# Drafts kept alongside a post (e.g. social-media versions) would otherwise be
+# picked up as page resources and listed under "Attachments".
+ignoreFiles:
+  - "linkedin_post\\.md$"
+
 services:
   googleAnalytics:
     ID: ""
