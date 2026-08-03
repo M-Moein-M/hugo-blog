@@ -1,0 +1,14 @@
+{{- /*
+Render hook for Markdown headings.
+Adds a clickable "#" anchor link next to each heading so sections can be
+linked directly.
+
+Notes:
+- Heading IDs come from Goldmark's autoHeadingID (enabled by default).
+- Styling lives in assets/css/_anchors.css.
+*/ -}}
+
+<h{{ .Level }} id="{{ .Anchor }}" class="heading-anchored">
+  {{- .Text | safeHTML -}}
+  <a class="heading-anchor" href="#{{ .Anchor }}" aria-label="Link to this section: {{ .PlainText }}">#</a>
+</h{{ .Level }}>
